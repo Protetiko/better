@@ -37,9 +37,10 @@ class Movie < Better::ValueObject
 end
 
 movie = Movie.new(title: 'The Goodfather', year: 1972)
+movie.title # => 'The Goodfather'
 movie.to_h
 # { title: "The Goodfather", year: 1972, genre: 'horror' }
-movie.genre = 'crime
+movie.genre = 'crime'
 movie.genre # => 'crime'
 ```
 
