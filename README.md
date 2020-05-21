@@ -24,15 +24,16 @@ Or install it yourself as:
 
 - `ValueObject` - The simple value object
 - `ImmutableValueObject` - ValueObject with faster reads
-- `Validator` - Set the framework for you validations
+- `Result` - Simple Result object for validations etc
+- `Context` - Dead simple context object
 
 ### ValueObject
 
 ```ruby
 class Movie < Better::ValueObject
-    field :title
-    field :year
-    field :genre, default: 'horror'
+  field :title
+  field :year
+  field :genre, default: 'horror'
 end
 
 movie = Movie.new(title: 'The Goodfather', year: 1972)
@@ -77,44 +78,44 @@ class UserValidator < Better::Validator
   Result = Better::Result # Type less code
   
   class AddressValidator
-	def self.call(data)
-	  return Result.fail(address: "Must be a Hash") unless data.instance_of?(Hash)
-	  return data[:street_address] ? Result.success : Result.fail(street_address: "Must be set")
-	end
+    def self.call(data)
+      return Result.fail(address: "Must be a Hash") unless data.instance_of?(Hash)
+      return data[:street_address] ? Result.success : Result.fail(street_address: "Must be set")
+    end
   end
 
   EmailValidator = ->(email) {
     return Result.fail(email: "Must be set") unless email
     return Result.fail(email: "Must be a String") unless email.instance_of?(String)
-	return Result.success
+    return Result.success
   }
 
   AgeValidator = Proc.new {|age|
-	result = Result.new
-	if age # Age is optional
-	  if age.instance_of?(Integer)
+    result = Result.new
+    if age # Age is optional
+      if age.instance_of?(Integer)
         result.fail(age: "Must be over 18") if age < 18
       else
         result.fail(age: "Must be an integer")
       end
-	end
-	result
+    end
+    result
   }
 
   def self.call(data)
-	result = Result.new
+    result = Result.new
 
     result.fail(name: "Must be set") unless data[:name]
     result.fail(name: "Must be a String") unless data[:name].instance_of?(String)
 
-	result << AgeValidator.call(data[:age])
-	result << EmailValidator.call(data[:email])
+    result << AgeValidator.call(data[:age])
+    result << EmailValidator.call(data[:email])
 
-	if data[:address] # Address is optional
-	  result << AddressValidator.call(data[:address])
-	end
+    if data[:address] # Address is optional
+      result << AddressValidator.call(data[:address])
+    end
 
-	return result
+    return result
   end
 end
 
