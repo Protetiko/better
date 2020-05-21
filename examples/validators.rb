@@ -1,9 +1,9 @@
 require_relative '../lib/better.rb'
 require 'dry-validation'
 
-Result = Better::Validator::Result
+Result = Better::Result
 
-class AgeValidator < Better::Validator
+class AgeValidator
   def self.call(data)
     result = Result.new
 
@@ -38,7 +38,7 @@ class DryUserValidator
   end
 end
 
-class UserValidator < Better::Validator
+class UserValidator
   class AddressValidator
 	def self.call(data)
 	  return Result.fail(address: "Must be a Hash") unless data.instance_of?(Hash)
@@ -112,11 +112,11 @@ results = [
   UserValidator.call(User.new(name: "David", age: 40, email: "david@protetiko.com", address: { street_address: "Gamla gatan 1" })),
   UserValidator.call(User.new(name: "David", age: 1, email: "david@protetiko.com", address: { street_address: "Gamla gatan 1" })),
   UserValidator.call(User.new(address: "Bruna gatan 1")),
+  UserValidator.call(User.new()),
 ]
 
 results.each do |result|
   puts "Success? #{result.success?}"
   puts "Errors: #{result.errors}" unless result.success?
-  #puts result.inspect
 end
 

@@ -1,11 +1,11 @@
 require "test_helper"
 
-Result = Better::Validator::Result
+Result = Better::Result
 
 class ValidatorTest < Minitest::Test
 
   module Validators
-    class AgeValidator < Better::Validator
+    class AgeValidator
       def self.call(data)
         result = Result.new
 
@@ -28,7 +28,7 @@ class ValidatorTest < Minitest::Test
 
 
 
-    class UserValidator < Better::Validator
+    class UserValidator
       class AddressValidator
         def self.call(data)
           return Result.fail(address: "Must be a Hash") unless data.instance_of?(Hash)
@@ -94,7 +94,7 @@ class ValidatorTest < Minitest::Test
     assert_equal "the-second-error", result.errors.last
 
     result = Result.success
-    assert_instance_of Better::Validator::Result, result
+    assert_instance_of Better::Result, result
     assert result.success?
     refute result.failure?
     assert_empty result.errors
