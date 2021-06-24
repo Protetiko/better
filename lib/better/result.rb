@@ -1,6 +1,3 @@
-# The validator can be any class/proc/lamba that implements the call method
-# and returns a Result object.
-#
 
 module Better
   class Result
@@ -21,7 +18,7 @@ module Better
     end
 
     def failure?
-      !success
+      !@success
     end
 
     def fail(*errors)
@@ -33,5 +30,17 @@ module Better
       @success &= result.success
       @errors += result.errors unless result.success
     end
+
+    # def self.call(data)
+    #   result = self.new.call(data)
+    #   result = Result.new unless result
+
+    #   if result.failure?
+    #     on_failure(result)
+    #   end
+    # end
+
+    # def on_failure(result)
+    # end
   end
 end

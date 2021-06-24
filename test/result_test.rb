@@ -21,11 +21,9 @@ class ValidatorTest < Minitest::Test
     end
 
 
-
     LambdaAgeValidator = ->(data) {
-      data[:age] < 18 ? Result.fail(age: ["Must be over 18"]) : Result.success
+      data[:age] < 18 ? Result.fail(age: "Must be over 18") : Result.success
     }
-
 
 
     class UserValidator
@@ -39,6 +37,7 @@ class ValidatorTest < Minitest::Test
       EmailValidator = ->(email) {
         return Result.fail(email: "Must be set")      unless email
         return Result.fail(email: "Must be a String") unless email.instance_of?(String)
+        return Result.fail(email: "Incorrect format") unless email.match?(/^\S+@\S+$/)
         return Result.success
       }
 
@@ -84,7 +83,7 @@ class ValidatorTest < Minitest::Test
     assert result.failure?
     assert result.errors
     assert_equal 1, result.errors.size
-    assert_equal "error-message", result.errors.first
+    assert_equal ["error-message"], result.errors
 
     result.fail("the-second-error")
     refute result.success?
@@ -107,6 +106,8 @@ class ValidatorTest < Minitest::Test
     assert_equal "another-error-message", result.errors.first
   end
 
+# The validator can be any class/proc/lamba that implements the call method
+# and returns a Result object.
   def test_validator_implementations_success
     [
       Validators::AgeValidator.call(age: 20),
@@ -117,6 +118,21 @@ class ValidatorTest < Minitest::Test
     ].each do |result|
       assert result.success?
       assert_empty result.errors
+    end
+
+    [
+      [Validators::AgeValidator.call(age: 17), [{age: "Must be over 18"}]],
+      [Validators::LambdaAgeValidator.call(age: 17), [{age: "Must be over 18"}]],
+      [Validators::UserValidator.call(name: "Berra", email: "berra[at]email.com"), [{email: "Incorrect format"}]],
+      [Validators::UserValidator.call(name: "Berra", email: "berra[at]email.com", age: 17), [{age: "Must be over 18"}, {email: "Incorrect format"}]],
+      [Validators::UserValidator.call(name: 1, email: "berra[at]email.com", address: nil, age: -100), [{ name: "Must be a String" }, { age: "Must be over 18" }, { email: "Incorrect format" }]],
+    ].each do |result, expected_errors|
+      refute result.success?
+      refute_empty result.errors
+
+      expected_errors.each_with_index do |e, i|
+        assert_equal e, result.errors[i]
+      end
     end
   end
 end
