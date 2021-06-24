@@ -40,16 +40,16 @@ end
 
 class UserValidator
   class AddressValidator
-	def self.call(data)
-	  return Result.fail(address: "Must be a Hash") unless data.instance_of?(Hash)
-	  return data[:street_address] ? Result.success : Result.fail(street_address: "Must be set")
-	end
+    def self.call(data)
+      return Result.fail(address: "Must be a Hash") unless data.instance_of?(Hash)
+      return data[:street_address] ? Result.success : Result.fail(street_address: "Must be set")
+    end
   end
 
   EmailValidator = ->(email) {
     return Result.fail(email: "Must be set")      unless email
     return Result.fail(email: "Must be a String") unless email.instance_of?(String)
-	return Result.success
+	  return Result.success
   }
 
   AgeValidator = Proc.new {|age|
@@ -67,8 +67,8 @@ class UserValidator
   def self.call(data)
 	result = Result.new
 
-    result.fail(name: "Must be set") unless data[:name]
-    result.fail(name: "Must be a String") unless data[:name].instance_of?(String)
+  result.fail(name: "Must be set") unless data[:name]
+  result.fail(name: "Must be a String") unless data[:name].instance_of?(String)
 
 	result << AgeValidator.call(data[:age])
 #    if data[:age]
