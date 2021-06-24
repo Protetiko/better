@@ -2,10 +2,12 @@ PATH
   remote: .
   specs:
     better (0.1.0)
+      uuidtools (~> 2.2)
 
 GEM
   remote: https://rubygems.org/
   specs:
+    amazing_print (1.3.0)
     axiom-types (0.1.1)
       descendants_tracker (~> 0.0.4)
       ice_nine (~> 0.11.0)
@@ -59,6 +61,7 @@ GEM
     minitest (5.14.1)
     rake (13.0.1)
     thread_safe (0.3.6)
+    uuidtools (2.2.0)
     virtus (1.0.5)
       axiom-types (~> 0.1)
       coercible (~> 1.0)
@@ -69,11 +72,12 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  amazing_print
   benchmark-ips
   better!
   bundler (~> 2.0)
   dry-validation
-  minitest (~> 5.0)
+  minitest (~> 5.14)
   rake (~> 13.0)
   virtus
 
