@@ -15,6 +15,9 @@ require 'virtus'
 require_relative '../lib/better'
 require_relative 'alternative_implementations/value_object.rb'
 
+$stdout = File.new("benchmark-#{DateTime.now}.log", 'w')
+$stdout.sync = true
+
 # Enable and start GC before each job run. Disable GC afterwards.
 #
 # Inspired by https://www.omniref.com/ruby/2.2.1/symbols/Benchmark/bm?#annotation=4095926&line=182
