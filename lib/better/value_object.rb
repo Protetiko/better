@@ -7,6 +7,10 @@ module Better
       @attributes.merge!(params.slice(*keys))
 
       keys.each do |key|
+        if @attributes[key].is_a? Proc
+          @attributes[key] = @attributes[key].call
+        end
+
         if (type = self.class.types[key]) && (val = @attributes[key])
           if val.class == Array # Automatic type mapping if assigned an array
             @attributes[key] = val.map{|x| type.new(x) }
@@ -17,6 +21,15 @@ module Better
 
         define_singleton_method(key) { @attributes[key] }
         define_singleton_method("#{key}=") {|value| @attributes[key]=value }
+      end
+    end
+
+    def self.inherited(base)
+      self.fields.each do |field|
+        params = {}
+        params[:default] = self.default_values[field] if self.default_values[field]
+        params[:type] = self.types[field] if self.types[field]
+        base.field(field, **params)
       end
     end
 
