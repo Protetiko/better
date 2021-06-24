@@ -9,7 +9,7 @@ The initial inspiration behind starting Better was after looking at a simple val
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'better'
+gem 'better', :git => "git://github.com/protetiko/better.git"
 ```
 
 And then execute:
@@ -26,22 +26,60 @@ Or install it yourself as:
 - `ImmutableValueObject` - ValueObject with faster reads
 - `Result` - Simple Result object for validations etc
 - `Context` - Dead simple context object
+- `UUID` - Correctly generated UUIDs
 
 ### ValueObject
 
 ```ruby
+class Person < Better::ValueObject
+  field :name
+end
+
 class Movie < Better::ValueObject
   field :title
   field :year
   field :genre, default: 'horror'
+  field :director, type: Person
+  field :actors, type: Person
 end
 
-movie = Movie.new(title: 'The Goodfather', year: 1972)
+movie = Movie.new(
+  title: 'The Goodfather',
+  year: 1972,
+  director: { name: "Francis Ford Coppola" },
+  actors: [
+    { name: "Marlon Brando" },
+    { name: "Al Pacino" },
+    { name: "James Caan" },
+  ]
+)
 movie.title # => 'The Goodfather'
 movie.to_h
-# { title: "The Goodfather", year: 1972, genre: 'horror' }
+# { title: "The Goodfather", year: 1972, genre: 'horror', director: { name: "Francis Ford Coppola"}, actors: [ { name: "Marlon Brando" }, { name: "Al Pacino" }, { name: "James Caan" }] }
 movie.genre = 'crime'
 movie.genre # => 'crime'
+movie.director.class # => 'Person < Better::ValueObject'
+movie.actor[0].class # => 'Person < Better::ValueObject'
+```
+
+### ImmutableValueObject
+
+An immutable version of the ValueObject. Somewhat slower on create, but much faster reads and hash convertions.
+
+```ruby
+class Person < Better::ImmutableValueObject
+  field :name
+end
+
+class Movie < Better::ImmutableValueObject
+  field :title
+  field :year
+  field :genre, default: 'horror'
+  field :director, type: Person
+  field :actors, type: Person
+end
+
+#...
 ```
 
 ### Result
@@ -143,6 +181,15 @@ result.errors
 ### Context
 
 A simple efficient context.
+
+
+### UUID
+
+```ruby
+Better::UUID.uuid # => generates random uuid
+Better::UUID.uuid_v4 # => generates random uuid
+Better::UUID.uuid_v5(Better::UUID::DNS_NAMESPACE, 'example.com') # => generates namespaces, non-random, uuid
+```
 
 ## Development
 
