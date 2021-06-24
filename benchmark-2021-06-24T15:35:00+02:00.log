@@ -1,0 +1,119 @@
+
+
+INITIALIZATION ==========
+Warming up --------------------------------------
+          Object.new   535.467k i/100ms
+    FakedPointStruct   415.215k i/100ms
+         PointStruct   435.938k i/100ms
+              Hash[]   339.096k i/100ms
+          PointClass   311.114k i/100ms
+          Hash#merge   187.457k i/100ms
+          OpenStruct   136.125k i/100ms
+         BetterPoint    16.260k i/100ms
+BetterImmutablePoint    19.206k i/100ms
+         ValueObject    17.248k i/100ms
+        ValueObject2    19.465k i/100ms
+        ValueObject3    54.909k i/100ms
+        ValueObject4    24.869k i/100ms
+      ImmutablePoint    62.573k i/100ms
+              Virtus    11.270k i/100ms
+Calculating -------------------------------------
+          Object.new      5.002M (±12.1%) i/s -     25.167M in   5.107894s
+    FakedPointStruct      3.811M (±12.4%) i/s -     19.100M in   5.093972s
+         PointStruct      4.127M (± 9.2%) i/s -     20.925M in   5.114648s
+              Hash[]      3.294M (±24.1%) i/s -     15.938M in   5.081731s
+          PointClass      2.860M (± 7.4%) i/s -     14.311M in   5.034070s
+          Hash#merge      2.055M (±16.4%) i/s -     10.123M in   5.043800s
+          OpenStruct      1.341M (± 7.4%) i/s -      6.670M in   4.999927s
+         BetterPoint    137.725k (±16.2%) i/s -    666.660k in   5.023480s
+BetterImmutablePoint    167.294k (±10.2%) i/s -    845.064k in   5.106920s
+         ValueObject    149.306k (±13.7%) i/s -    741.664k in   5.070335s
+        ValueObject2    169.466k (±11.2%) i/s -    856.460k in   5.122948s
+        ValueObject3    560.755k (±10.8%) i/s -      2.800M in   5.077654s
+        ValueObject4    223.188k (± 9.9%) i/s -      1.119M in   5.071046s
+      ImmutablePoint    597.366k (± 8.4%) i/s -      3.004M in   5.062737s
+              Virtus    108.450k (± 5.5%) i/s -    552.230k in   5.109221s
+
+
+READ ==========
+Warming up --------------------------------------
+    FakedPointStruct     1.570M i/100ms
+         PointStruct     1.401M i/100ms
+          PointClass     1.686M i/100ms
+          Hash#fetch     1.205M i/100ms
+             Hash#[]     1.624M i/100ms
+          OpenStruct   746.152k i/100ms
+      BetterPoint#[]     1.197M i/100ms
+       BetterPoint.x   739.999k i/100ms
+  BetterImmutable#[]     1.133M i/100ms
+   BetterImmutable.x     1.471M i/100ms
+      ValueObject#[]   831.393k i/100ms
+       ValueObject.x   363.804k i/100ms
+     ValueObject2#[]     1.226M i/100ms
+      ValueObject2.x   740.846k i/100ms
+     ValueObject3#[]    40.583k i/100ms
+      ValueObject3.x     1.538M i/100ms
+     ValueObject4#[]     1.185M i/100ms
+      ValueObject4.x     1.382M i/100ms
+   ImmutablePoint#[]     1.107M i/100ms
+    ImmutablePoint.x     1.666M i/100ms
+              Virtus   405.077k i/100ms
+Calculating -------------------------------------
+    FakedPointStruct     16.593M (± 1.8%) i/s -     83.217M in   5.016843s
+         PointStruct     13.899M (± 7.5%) i/s -     70.062M in   5.085164s
+          PointClass     16.180M (± 3.9%) i/s -     80.951M in   5.011079s
+          Hash#fetch     12.001M (± 1.3%) i/s -     60.249M in   5.020981s
+             Hash#[]     16.033M (± 2.9%) i/s -     81.179M in   5.068112s
+          OpenStruct      7.095M (± 5.1%) i/s -     35.815M in   5.061891s
+      BetterPoint#[]     11.855M (± 3.0%) i/s -     59.857M in   5.053683s
+       BetterPoint.x      7.448M (± 2.1%) i/s -     37.740M in   5.069670s
+  BetterImmutable#[]     11.837M (± 6.4%) i/s -     60.052M in   5.103407s
+   BetterImmutable.x     15.081M (± 8.0%) i/s -     75.033M in   5.016395s
+      ValueObject#[]      8.366M (± 2.9%) i/s -     42.401M in   5.073057s
+       ValueObject.x      3.557M (± 3.6%) i/s -     17.826M in   5.018262s
+     ValueObject2#[]     11.463M (± 6.2%) i/s -     57.633M in   5.048792s
+      ValueObject2.x      7.390M (± 1.7%) i/s -     37.042M in   5.014224s
+     ValueObject3#[]    375.008k (±10.9%) i/s -      1.867M in   5.029625s
+      ValueObject3.x     16.206M (± 4.3%) i/s -     81.495M in   5.038465s
+     ValueObject4#[]     11.524M (± 5.9%) i/s -     58.042M in   5.058935s
+      ValueObject4.x     14.604M (± 1.8%) i/s -     73.262M in   5.018113s
+   ImmutablePoint#[]     12.219M (± 3.5%) i/s -     61.970M in   5.078932s
+    ImmutablePoint.x     15.898M (± 3.7%) i/s -     79.965M in   5.036829s
+              Virtus      3.919M (± 8.7%) i/s -     19.444M in   5.032119s
+
+
+WRITE ==========
+Warming up --------------------------------------
+    FakedPointStruct     1.512M i/100ms
+         PointStruct     1.236M i/100ms
+          PointClass     1.506M i/100ms
+                Hash     1.264M i/100ms
+          OpenStruct   475.079k i/100ms
+      BetterPoint#[]   413.502k i/100ms
+       BetterPoint.x   634.575k i/100ms
+      ValueObject#[]   307.068k i/100ms
+       ValueObject.x   385.581k i/100ms
+     ValueObject2#[]   953.396k i/100ms
+      ValueObject2.x   627.251k i/100ms
+     ValueObject3#[]   249.766k i/100ms
+      ValueObject3.x     1.557M i/100ms
+     ValueObject4#[]   113.561k i/100ms
+      ValueObject4.x   229.691k i/100ms
+              Virtus    48.861k i/100ms
+Calculating -------------------------------------
+    FakedPointStruct     14.755M (± 2.3%) i/s -     74.087M in   5.023966s
+         PointStruct     12.399M (± 1.4%) i/s -     63.047M in   5.085719s
+          PointClass     14.235M (± 8.8%) i/s -     70.802M in   5.027702s
+                Hash     12.587M (± 1.3%) i/s -     63.211M in   5.022750s
+          OpenStruct      5.161M (± 2.7%) i/s -     26.129M in   5.067037s
+      BetterPoint#[]      4.182M (± 6.2%) i/s -     21.089M in   5.062757s
+       BetterPoint.x      6.128M (± 4.8%) i/s -     31.094M in   5.086560s
+      ValueObject#[]      3.002M (± 3.4%) i/s -     15.046M in   5.017145s
+       ValueObject.x      3.307M (±13.5%) i/s -     16.580M in   5.109636s
+     ValueObject2#[]      9.085M (± 4.8%) i/s -     45.763M in   5.049163s
+      ValueObject2.x      6.298M (± 1.9%) i/s -     31.990M in   5.081237s
+     ValueObject3#[]      2.410M (± 6.4%) i/s -     12.239M in   5.099313s
+      ValueObject3.x     14.846M (± 5.3%) i/s -     74.754M in   5.050647s
+     ValueObject4#[]      1.221M (±10.4%) i/s -      6.132M in   5.077091s
+      ValueObject4.x      2.210M (± 8.5%) i/s -     11.025M in   5.025922s
+              Virtus    472.447k (± 8.6%) i/s -      2.394M in   5.108213s
