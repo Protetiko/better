@@ -22,13 +22,14 @@ Or install it yourself as:
 
 ## Usage
 
-- `ValueObject` - The simple value object
-- `ImmutableValueObject` - ValueObject with faster reads
-- `Result` - Simple Result object for validations etc
-- `Context` - Dead simple context object
-- `UUID` - Correctly generated UUIDs
+- `Better::ValueObject` - The simple value object
+- `Better::ImmutableValueObject` - ValueObject with faster reads
+- `Better::Result` - Simple Result object for validations etc
+- `Better::Context` - Dead simple context object
+- `Better::UUID` - Correctly generated UUIDs
+- `Better::Store` - Dead simple in memory database
 
-### ValueObject
+### Better::ValueObject
 
 ```ruby
 class Person < Better::ValueObject
@@ -44,7 +45,7 @@ class Movie < Better::ValueObject
 end
 
 movie = Movie.new(
-  title: 'The Goodfather',
+  title: 'The Godfather',
   year: 1972,
   director: { name: "Francis Ford Coppola" },
   actors: [
@@ -53,16 +54,16 @@ movie = Movie.new(
     { name: "James Caan" },
   ]
 )
-movie.title # => 'The Goodfather'
+movie.title # => 'The Godfather'
 movie.to_h
-# { title: "The Goodfather", year: 1972, genre: 'horror', director: { name: "Francis Ford Coppola"}, actors: [ { name: "Marlon Brando" }, { name: "Al Pacino" }, { name: "James Caan" }] }
+# { title: "The Godfather", year: 1972, genre: 'horror', director: { name: "Francis Ford Coppola"}, actors: [ { name: "Marlon Brando" }, { name: "Al Pacino" }, { name: "James Caan" }] }
 movie.genre = 'crime'
 movie.genre # => 'crime'
 movie.director.class # => 'Person < Better::ValueObject'
 movie.actor[0].class # => 'Person < Better::ValueObject'
 ```
 
-### ImmutableValueObject
+### Better::ImmutableValueObject
 
 An immutable version of the ValueObject. Somewhat slower on create, but much faster reads and hash convertions.
 
@@ -82,7 +83,7 @@ end
 #...
 ```
 
-### Result
+### Better::Result
 
 A simple and intuitive `Result` class. Get structure on your validator results, or you method context success/failure status.
 
@@ -178,17 +179,42 @@ result.errors
 # [{:name=>"Must be set"}, {:name=>"Must be a String"}, {:email=>"Must be set"}]
 ```
 
-### Context
+### Better::Context
 
 A simple efficient context.
 
 
-### UUID
+### Better::UUID
 
 ```ruby
 Better::UUID.uuid # => generates random uuid
 Better::UUID.uuid_v4 # => generates random uuid
 Better::UUID.uuid_v5(Better::UUID::DNS_NAMESPACE, 'example.com') # => generates namespaces, non-random, uuid
+```
+
+### Better::Store
+A simple memory store that support queries.
+
+```ruby
+movie_store = Better::Store.new
+movie_store.create(title: 'The Godfather', year: 1972)
+movie = movie_store.create(title: 'The Godfather Part II', year: 1974)
+movie_store.create(title: 'The Godfather Part III', year: 1990)
+movie
+# {id: 2, title: "The Godfather Part II", year: 1974}
+movie_store.find(movie[:id]) # => {id: 2, title: "The Godfather Part II", year: 1974} // id match
+movie_store.find_by(title: "The Godfather Part II") # => {id: 2, title: "The Godfather Part II", year: 1974}
+movie_store.find_by(title: /Godfather/) # => {id: 1, title: "The Godfather", year: 1972} // first match
+movie_store.find_by(title: /Godfather/, year: 1974) # => {id: 2, title: "The Godfather Part II", year: 1974}
+movie_store.where(title: /Godfather/) # [{id: 1, title: "The Godfather", year: 1972}, {id: 2, title: "The Godfather Part II", year: 1974}, {title: 'The Godfather Part III', year: 1990}]
+movie_store.each do |movie|
+  movie_store.update(movie[:id], actors: ['Al Pacino'])
+end
+
+movie_store.all(title: /Godfather/) # [{id: 1, title: "The Godfather", year: 1972, actors: ["Al Pacino"]}, {id: 2, title: "The Godfather Part II", year: 1974, actors: ["Al Pacino"]}, {title: 'The Godfather Part III', year: 1990, actors: ["Al Pacino"]}]
+
+movie_store.delete(movie[:id])
+movie_store.all # [{id: 1, title: "The Godfather", year: 1972, actors: ["Al Pacino"]}, {title: 'The Godfather Part III', year: 1990, actors: ["Al Pacino"]}]
 ```
 
 ## Development
