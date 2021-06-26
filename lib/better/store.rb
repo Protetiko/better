@@ -43,8 +43,14 @@ module Better
       @database.delete(id)
     end
 
-    def each(&block)
-      @database.values.each(&block)
+    def each(query = nil, &block)
+      if query
+        records = where(query)
+      else
+        records = @database.values
+      end
+
+      records.each(&block)
     end
 
     def find(id)
